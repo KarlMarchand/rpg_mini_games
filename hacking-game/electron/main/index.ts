@@ -1,9 +1,6 @@
 import { app, BrowserWindow, shell, Menu } from "electron";
 import { release } from "node:os";
 import { join } from "node:path";
-import * as remoteMain from "@electron/remote/main";
-
-remoteMain.initialize();
 
 // The built directory structure
 //
@@ -36,7 +33,7 @@ if (!app.requestSingleInstanceLock()) {
 // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 let win: BrowserWindow | null = null;
-// Here, you can also use other preload
+// Here, you can also use other preload, preload loads when the app opens
 const preload = join(__dirname, "../preload/index.js");
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(process.env.DIST, "index.html");
@@ -77,8 +74,6 @@ async function createWindow() {
 	const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
 	// Insert menu
 	Menu.setApplicationMenu(mainMenu);
-
-	remoteMain.enable(win.webContents);
 }
 
 // Custom Menu Bar top of the app
@@ -126,3 +121,9 @@ app.on("activate", () => {
 		createWindow();
 	}
 });
+
+// To use ipc, you have to import ipcMain from ipc for the main processes (electron/backend/node)
+// Then you'll need ipcRendere in the rendering processes (react/frontend/browser)
+// They work a bit like Socket.IO events where both sides can send events and react to those events.
+// ipcMain.on("event", () => {}) or ipcRenderer.on("event", () => {}) to listen to events
+// ipcMain.send("event", data) or ipcRenderer.send("event", data) to send an event and data
