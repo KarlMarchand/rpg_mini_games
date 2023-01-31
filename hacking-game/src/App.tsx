@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import TerminalLayout from "./components/TerminalLayout";
-import IntroScreen from "./components/IntroScreen";
-import HackingGame from "./components/HackingGame";
-import FileExplorer from "./components/FileExplorer";
-import FailureScreen from "./components/FailureScreen";
-
-/*SVG inclusion example <img src={EmpireLogo} /> */
-// import EmpireLogo from "./assets/empire.svg";
+import IntroScreen from "./pages/IntroScreen";
+import HackingGame from "./pages/HackingGame";
+import FileExplorer from "./pages/FileExplorer";
+import FailureScreen from "./pages/FailureScreen";
+import InstructionsScreen from "./pages/InstructionsScreen";
 
 export enum GameResult {
 	Unresolved = 0,
@@ -15,7 +13,7 @@ export enum GameResult {
 	Lose = 2,
 }
 
-function App() {
+const App: React.FC = () => {
 	const [gameResult, setGameResult] = useState<GameResult>(GameResult.Unresolved);
 
 	const handleGameResult = (result: GameResult) => {
@@ -25,6 +23,7 @@ function App() {
 	return (
 		<Routes>
 			<Route path="/*" element={<TerminalLayout />}>
+				<Route path="instructions" element={<InstructionsScreen />} />
 				<Route path="game" element={<HackingGame onResult={handleGameResult} />} />
 				<Route path="files" element={gameResult === GameResult.Win ? <FileExplorer /> : <Navigate to="/" />} />
 				<Route path="failure" element={<FailureScreen />} />
@@ -32,6 +31,6 @@ function App() {
 			</Route>
 		</Routes>
 	);
-}
+};
 
 export default App;
