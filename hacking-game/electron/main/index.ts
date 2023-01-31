@@ -1,6 +1,8 @@
-import { app, BrowserWindow, shell, Menu } from "electron";
+import { app, BrowserWindow, shell, Menu, ipcMain, IpcMainEvent } from "electron";
 import { release } from "node:os";
 import { join } from "node:path";
+import fs from "fs";
+import path from "path";
 
 // The built directory structure
 //
@@ -127,3 +129,48 @@ app.on("activate", () => {
 // They work a bit like Socket.IO events where both sides can send events and react to those events.
 // ipcMain.on("event", () => {}) or ipcRenderer.on("event", () => {}) to listen to events
 // ipcMain.send("event", data) or ipcRenderer.send("event", data) to send an event and data
+
+interface File {
+	name: string;
+	path: string;
+	isDirectory: boolean;
+	children?: File[];
+}
+
+ipcMain.handle("get-file-tree", async (event: IpcMainEvent) => {
+	const basePath = "../computerContent";
+	const tree: File[] = [];
+
+	const scanDirectory = (dir: string, parent: File) => {
+		const files = fs.readdirSync(dir, { withFileTypes: true });
+
+		files.forEach((file) => {
+			const filePath = path.join(dir, file.name);
+			const fileTree: File = {
+				name: file.name,
+				path: filePath,
+				isDirectory: file.isDirectory(),
+			};
+
+			if (file.isDirectory()) {
+				fileTree.children = [];
+				scanDirectory(filePath, fileTree);
+			}
+
+			parent.children?.push(fileTree);
+		});
+	};
+
+	scanDirectory(basePath, { name: "", path: basePath, isDirectory: true, children: tree });
+	event.reply("file-tree-response", tree);
+});
+
+ipcMain.on("open-file", (event: IpcMainEvent, filePath: string) => {
+	fs.readFile(filePath, "utf-8", (err, data) => {
+		if (err) {
+			console.error(err);
+			return;
+		}
+		event.sender.send("file-content", data);
+	});
+});
