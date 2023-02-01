@@ -11,7 +11,7 @@ type Props = {
 const Instructions: React.FC<Props> = ({ tries, charSet, passLength, symbol, onClose }) => {
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === " ") {
+			if (event.key === "Enter") {
 				onClose();
 			}
 		};
@@ -50,7 +50,7 @@ const Instructions: React.FC<Props> = ({ tries, charSet, passLength, symbol, onC
 				Please note that the feedback won't be in the same order as your combination. The symbols are grouped by
 				level of success.
 			</p>
-			<p>Press space whenever you're ready to play...</p>
+			<p>Press enter whenever you're ready to play...</p>
 		</>
 	);
 };
