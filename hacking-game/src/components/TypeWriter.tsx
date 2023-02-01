@@ -3,11 +3,12 @@ import { useState, useEffect, useRef } from "react";
 type Props = {
 	text: string;
 	speed: number;
+	customKey: string;
 	onFinish: () => void;
 	scroll: () => void;
 };
 
-const TypeWriter: React.FC<Props> = ({ text, speed, onFinish, scroll }) => {
+const TypeWriter: React.FC<Props> = ({ text, speed, customKey, onFinish, scroll }) => {
 	const index: React.MutableRefObject<number> = useRef(0);
 	const [currentText, setCurrentText] = useState<string>("");
 
@@ -30,7 +31,7 @@ const TypeWriter: React.FC<Props> = ({ text, speed, onFinish, scroll }) => {
 		};
 	}, [currentText, text]);
 
-	return <p>{currentText}</p>;
+	return <p key={customKey}>{currentText}</p>;
 };
 
 export default TypeWriter;
