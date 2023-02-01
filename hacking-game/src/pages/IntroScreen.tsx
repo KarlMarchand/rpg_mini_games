@@ -2,18 +2,23 @@ import TypeWriter from "@/components/TypeWriter";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+type Inputs = {
+	name: string;
+	text: string;
+};
+
 const IntroScreen = () => {
+	const navigate = useNavigate();
 	const [currentContent, setCurrentContent] = useState<JSX.Element[]>([]);
 	const containerRef = useRef<HTMLDivElement>(null);
-	const navigate = useNavigate();
 	const index: React.MutableRefObject<number> = useRef(0);
-	const input: string[] = [
-		"$ nmap -p 1-65535 -T4 local",
-		"$ nikto -host empire-secure-terminal",
-		"$ sarlacc -l admin -P password_list empire-secure-terminal ssh",
+	const input: Inputs[] = [
+		{ name: "nmap", text: "$ nmap -p 1-65535 -T4 local" },
+		{ name: "nikto", text: "$ nikto -host empire-secure-terminal" },
+		{ name: "sarlacc", text: "$ sarlacc -l admin -P password_list empire-secure-terminal ssh" },
 	];
 	const output: JSX.Element[] = [
-		<p>
+		<p key="output-nmap">
 			Scan report for empire-secure-terminal
 			<br />
 			PORT: 22
@@ -23,17 +28,23 @@ const IntroScreen = () => {
 			SERVICE: ssh
 			<br />
 		</p>,
-		<p>
-			Running nikto on port 22... <br />
-			+ Server: Running <br />
-			+ Login page found <br />
-			+ 1 vulnerability found <br />
+		<p key="output-nikto">
+			Running nikto on port 22...
+			<br />
+			+ Server: Running
+			<br />
+			+ Login page found
+			<br />
+			+ 1 vulnerability found
+			<br />
 		</p>,
-		<p>Connection established. Brute Force Attack starting...</p>,
+		<p key="output-sarlacc">Connection established. Brute Force Attack starting...</p>,
 	];
 
 	const typingSpeed = 50;
 
+	// Gets called everytime the virtual user finish entering a command.
+	// It will show the fake result and start typing a new command until it finishes and navigates to the game page
 	const nextInput = () => {
 		setTimeout(() => {
 			setCurrentContent((value) => [...value, output[index.current]]);
@@ -43,7 +54,8 @@ const IntroScreen = () => {
 					setCurrentContent((value) => [
 						...value,
 						<TypeWriter
-							text={input[index.current]}
+							text={input[index.current].text}
+							customKey={input[index.current].name}
 							speed={typingSpeed}
 							onFinish={nextInput}
 							scroll={scrollDown}
@@ -62,6 +74,7 @@ const IntroScreen = () => {
 		navigate("/game");
 	};
 
+	// Keep the text always scrolled down for small screen
 	const scrollDown = () => {
 		if (containerRef.current) {
 			containerRef.current.scrollTop = containerRef.current.scrollHeight;
@@ -70,7 +83,13 @@ const IntroScreen = () => {
 
 	useEffect(() => {
 		setCurrentContent([
-			<TypeWriter text={input[index.current]} speed={typingSpeed} onFinish={nextInput} scroll={scrollDown} />,
+			<TypeWriter
+				text={input[index.current].text}
+				speed={typingSpeed}
+				customKey={input[index.current].name}
+				onFinish={nextInput}
+				scroll={scrollDown}
+			/>,
 		]);
 
 		const handleKeyDown = (event: KeyboardEvent) => {
@@ -91,7 +110,9 @@ const IntroScreen = () => {
 
 	return (
 		<div className="scrollDown" ref={containerRef}>
-			{currentContent.map((line) => line)}
+			{currentContent.map((line) => {
+				return line;
+			})}
 		</div>
 	);
 };

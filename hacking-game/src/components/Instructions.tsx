@@ -11,7 +11,6 @@ type Props = {
 const Instructions: React.FC<Props> = ({ tries, charSet, passLength, symbol, onClose }) => {
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
-			console.log(event.key);
 			if (event.key === " ") {
 				onClose();
 			}
