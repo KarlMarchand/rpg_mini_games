@@ -7,60 +7,59 @@ const IntroScreen = () => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const navigate = useNavigate();
 	const index: React.MutableRefObject<number> = useRef(0);
-	const input = [
-		"$ nmap -p 1-65535 -T4 10.0.0.0/8",
-		"$ nikto -host 10.0.0.1",
-		"$ sarlacc -l admin -P password_list 10.0.0.1 ssh",
+	const input: string[] = [
+		"$ nmap -p 1-65535 -T4 local",
+		"$ nikto -host empire-secure-terminal",
+		"$ sarlacc -l admin -P password_list empire-secure-terminal ssh",
 	];
-	const output = [
-		`Starting Nmap
-        Nmap scan report for empire-secure.gov (10.0.0.1)
-        Host is up (0.000089s latency).
-        Not shown: 997 closed ports
-        PORT     STATE SERVICE
-        22/tcp   open  ssh
-        80/tcp   open  http
-        443/tcp  open  https
-        8080/tcp open  http-proxy
-
-        Nmap done: 1 IP address (1 host up) scanned in 0.03 seconds`,
-		`Running nikto on port 22...
-
-        + Target IP: xxx.xxx.xxx.xxx
-        + Target Hostname: empire-secure.gov
-        + Target Port: 22
-
-        + Server: Apache
-        + Web root: /var/www/html
-
-        + /admin/login.php  - Login page found
-        + /index.php?page=secret - Sensitive file found
-
-        + 2 vulnerability found`,
-		`Connection established. Force brute attack starting...`,
+	const output: JSX.Element[] = [
+		<p>
+			Scan report for empire-secure-terminal
+			<br />
+			PORT: 22
+			<br />
+			STATE: Open
+			<br />
+			SERVICE: ssh
+			<br />
+		</p>,
+		<p>
+			Running nikto on port 22... <br />
+			+ Server: Running <br />
+			+ Login page found <br />
+			+ 1 vulnerability found <br />
+		</p>,
+		<p>Connection established. Brute Force Attack starting...</p>,
 	];
+
+	const typingSpeed = 50;
 
 	const nextInput = () => {
 		setTimeout(() => {
-			setCurrentContent((value) => [...value, <p>{output[index.current]}</p>]);
+			setCurrentContent((value) => [...value, output[index.current]]);
 			setTimeout(() => {
 				index.current += 1;
 				if (index.current < input.length) {
 					setCurrentContent((value) => [
 						...value,
-						<TypeWriter text={input[index.current]} speed={100} onFinish={nextInput} scroll={scrollDown} />,
+						<TypeWriter
+							text={input[index.current]}
+							speed={typingSpeed}
+							onFinish={nextInput}
+							scroll={scrollDown}
+						/>,
 					]);
 				} else {
 					setTimeout(() => {
 						goToNextPage();
-					}, 2000);
+					}, 1000);
 				}
-			}, 5000);
-		}, 2000);
+			}, 2000);
+		}, 1000);
 	};
 
 	const goToNextPage = () => {
-		navigate("/instructions");
+		navigate("/game");
 	};
 
 	const scrollDown = () => {
@@ -71,11 +70,11 @@ const IntroScreen = () => {
 
 	useEffect(() => {
 		setCurrentContent([
-			<TypeWriter text={input[index.current]} speed={100} onFinish={nextInput} scroll={scrollDown} />,
+			<TypeWriter text={input[index.current]} speed={typingSpeed} onFinish={nextInput} scroll={scrollDown} />,
 		]);
 
 		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === "Space") {
+			if (event.key === " ") {
 				goToNextPage();
 			}
 		};
