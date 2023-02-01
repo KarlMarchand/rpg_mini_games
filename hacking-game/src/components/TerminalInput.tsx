@@ -20,6 +20,7 @@ const TerminalInput: React.FC<Props> = ({ label, numbersOnly, maxLength, onSubmi
 					finalValue = finalValue.slice(0, maxLength);
 				}
 				onSubmit(finalValue);
+				setInputValue("");
 			} else if (event.key === "Backspace") {
 				setInputValue((value: string) => value.slice(0, -1));
 			} else if (event.key.length === 1 || event.key === "Space") {
