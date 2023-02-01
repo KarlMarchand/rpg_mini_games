@@ -1,0 +1,37 @@
+.right-guest {
+	color: lime;
+}
+.almost-guest {
+	color: #ffd700;
+}
+.wrong-guest {
+	color: #fe6f5e;
+}
+
+.skill-prompt .terminal-input {
+	margin-top: 40px;
+}
+
+.label {
+	margin-right: 10px;
+}
+
+.blinking-cursor {
+	user-select: none;
+	animation: blink 1s steps(2, start) infinite;
+
+	@keyframes blink {
+		to {
+			visibility: hidden;
+		}
+	}
+}
+
+.guess-history {
+	display: flex;
+	flex-wrap: wrap;
+
+	> p {
+		margin-right: 4rem;
+	}
+}
