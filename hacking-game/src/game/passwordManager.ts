@@ -1,13 +1,13 @@
-import { Result } from "./types/hacking";
+import { Result } from "../types/hacking";
 
-enum PasswordStyles {
+export enum PasswordStyles {
 	DIGITS,
 	LETTERS,
 	ALPHANUMERICAL,
 	CUSTOM,
 }
 
-enum Difficulty {
+export enum Difficulty {
 	EASY = 3,
 	MEDIUM = 5,
 	HARD = 7,
@@ -52,7 +52,7 @@ class PasswordManager {
 	};
 
 	// Make sure the guess isn't shorter or longer than the supposed length of the password allowed and trims the white spaces.
-	formatGuess = (guess: string): string => {
+	#formatGuess = (guess: string): string => {
 		return guess.trim().slice(0, this.passwordLength).padStart(this.passwordLength, " ");
 	};
 
@@ -64,7 +64,7 @@ class PasswordManager {
 			Almost: 0,
 			Wrong: 0,
 		};
-		const guess_list = Array.from(this.formatGuess(guess));
+		const guess_list = Array.from(this.#formatGuess(guess));
 		const password_list = Array.from(this.password);
 		password_list.forEach((char, pos) => {
 			if (guess_list[pos] === char) {
