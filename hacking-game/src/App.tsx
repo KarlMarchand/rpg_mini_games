@@ -5,7 +5,6 @@ import IntroScreen from "./pages/IntroScreen";
 import HackingGame from "./pages/HackingGame";
 import FileExplorer from "./pages/FileExplorer";
 import FailureScreen from "./pages/FailureScreen";
-import InstructionsScreen from "./pages/InstructionsScreen";
 
 export enum GameResult {
 	Unresolved = 0,
@@ -23,7 +22,6 @@ const App: React.FC = () => {
 	return (
 		<Routes>
 			<Route path="/*" element={<TerminalLayout />}>
-				<Route path="instructions" element={<InstructionsScreen />} />
 				<Route path="game" element={<HackingGame onResult={handleGameResult} />} />
 				<Route path="files" element={gameResult === GameResult.Win ? <FileExplorer /> : <Navigate to="/" />} />
 				<Route path="failure" element={<FailureScreen />} />
