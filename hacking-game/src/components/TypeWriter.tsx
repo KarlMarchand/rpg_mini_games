@@ -1,9 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 
-const TypeWriter: React.FC<{ text: string; speed: number }> = ({ text, speed }) => {
-	const index: React.MutableRefObject<number> = useRef(0);
+type Props = {
+	text: string;
+	speed: number;
+	onFinish: () => void;
+	scroll: () => void;
+};
 
-	const [currentText, setCurrentText] = useState<string>("> ");
+const TypeWriter: React.FC<Props> = ({ text, speed, onFinish, scroll }) => {
+	const index: React.MutableRefObject<number> = useRef(0);
+	const [currentText, setCurrentText] = useState<string>("");
 
 	useEffect(() => {
 		index.current = 0;
@@ -14,6 +20,10 @@ const TypeWriter: React.FC<{ text: string; speed: number }> = ({ text, speed }) 
 		const timeoutId = setTimeout(() => {
 			setCurrentText((value: string) => value + text.charAt(index.current));
 			index.current += 1;
+			if (index.current === text.length - 1) {
+				onFinish();
+			}
+			scroll();
 		}, speed);
 		return () => {
 			clearTimeout(timeoutId);

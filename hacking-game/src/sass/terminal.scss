@@ -127,10 +127,6 @@
 	}
 }
 
-.output::before {
-	content: "> ";
-}
-
 a {
 	color: #fff;
 	text-decoration: none;
@@ -146,4 +142,12 @@ a {
 
 .errorcode {
 	color: white;
+}
+
+.scrollDown {
+	overflow-y: scroll;
+	height: 100%;
+	&::-webkit-scrollbar {
+		width: 0em;
+	}
 }
