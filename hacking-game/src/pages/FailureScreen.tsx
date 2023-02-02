@@ -1,9 +1,7 @@
-import { useCallback } from "react";
-
 const FailureScreen = () => {
-	const handleCloseApp = useCallback(() => {
+	const handleCloseApp = () => {
 		window.close();
-	}, []);
+	};
 
 	return (
 		<>

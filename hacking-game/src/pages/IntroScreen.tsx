@@ -10,14 +10,15 @@ type Inputs = {
 const IntroScreen = () => {
 	const navigate = useNavigate();
 	const [currentContent, setCurrentContent] = useState<JSX.Element[]>([]);
+	const [typingSpeed, setTypingSpeed] = useState<number>(50);
 	const containerRef = useRef<HTMLDivElement>(null);
 	const index: React.MutableRefObject<number> = useRef(0);
-	const input: Inputs[] = [
+	const input = useRef<Inputs[]>([
 		{ name: "nmap", text: "$ nmap -p 1-65535 -T4 local" },
 		{ name: "nikto", text: "$ nikto -host empire-secure-terminal" },
 		{ name: "sarlacc", text: "$ sarlacc -l admin -P password_list empire-secure-terminal ssh" },
-	];
-	const output: JSX.Element[] = [
+	]);
+	const output = useRef<JSX.Element[]>([
 		<p key="output-nmap">
 			Scan report for empire-secure-terminal
 			<br />
@@ -39,23 +40,21 @@ const IntroScreen = () => {
 			<br />
 		</p>,
 		<p key="output-sarlacc">Connection established. Brute Force Attack starting...</p>,
-	];
-
-	const typingSpeed = 50;
+	]);
 
 	// Gets called everytime the virtual user finish entering a command.
 	// It will show the fake result and start typing a new command until it finishes and navigates to the game page
 	const nextInput = () => {
 		setTimeout(() => {
-			setCurrentContent((value) => [...value, output[index.current]]);
+			setCurrentContent((value) => [...value, output.current[index.current]]);
 			setTimeout(() => {
 				index.current += 1;
-				if (index.current < input.length) {
+				if (index.current < input.current.length) {
 					setCurrentContent((value) => [
 						...value,
 						<TypeWriter
-							text={input[index.current].text}
-							customKey={input[index.current].name}
+							text={input.current[index.current].text}
+							customKey={input.current[index.current].name}
 							speed={typingSpeed}
 							onFinish={nextInput}
 							scroll={scrollDown}
@@ -84,9 +83,9 @@ const IntroScreen = () => {
 	useEffect(() => {
 		setCurrentContent([
 			<TypeWriter
-				text={input[index.current].text}
+				text={input.current[index.current].text}
 				speed={typingSpeed}
-				customKey={input[index.current].name}
+				customKey={input.current[index.current].name}
 				onFinish={nextInput}
 				scroll={scrollDown}
 			/>,
