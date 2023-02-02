@@ -1,0 +1,24 @@
+.empire-logo {
+	width: 30vh;
+	animation: spin 10s linear infinite;
+
+	@keyframes spin {
+		0% {
+			transform: rotateY(0deg);
+		}
+
+		50% {
+			transform: rotateY(180deg);
+		}
+
+		100% {
+			transform: rotateY(360deg);
+		}
+	}
+}
+
+form input {
+	background-color: transparent;
+	border: 3px solid rgba(1, 48, 9, 0.75);
+	outline: none;
+}
