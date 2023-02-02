@@ -110,8 +110,8 @@ const IntroScreen = () => {
 
 	return (
 		<div className="scrollDown" ref={containerRef}>
-			{currentContent.map((line) => {
-				return line;
+			{currentContent.map((line, key) => {
+				return <div key={key}>{line}</div>;
 			})}
 		</div>
 	);
