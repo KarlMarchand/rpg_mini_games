@@ -1,6 +1,7 @@
 @import "./fonts.scss";
 @import "./terminal.scss";
 @import "./game.scss";
+@import "./fileExplorer.scss";
 
 :root {
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -32,4 +33,27 @@ body {
 
 .clickable {
 	cursor: pointer;
+}
+
+.blinking-cursor {
+	user-select: none;
+	animation: blink 1s steps(2, start) infinite;
+
+	@keyframes blink {
+		to {
+			visibility: hidden;
+		}
+	}
+}
+
+.label {
+	margin-right: 10px;
+}
+
+.scrollDown {
+	overflow-y: scroll;
+	height: 100%;
+	&::-webkit-scrollbar {
+		width: 0em;
+	}
 }
