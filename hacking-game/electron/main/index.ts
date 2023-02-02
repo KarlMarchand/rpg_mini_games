@@ -138,7 +138,7 @@ interface File {
 }
 
 ipcMain.handle("get-file-tree", async (event: IpcMainEvent) => {
-	const basePath = "../computerContent";
+	const basePath = path.join(__dirname, "../computerContent");
 	const tree: File[] = [];
 
 	const scanDirectory = (dir: string, parent: File) => {
