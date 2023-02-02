@@ -1,32 +1,35 @@
-import { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import TerminalLayout from "./components/TerminalLayout";
 import IntroScreen from "./pages/IntroScreen";
 import HackingScreen from "./pages/HackingScreen";
 import FileExplorer from "./pages/FileExplorer";
 import FailureScreen from "./pages/FailureScreen";
-import { GameResult } from "./types/hacking";
+import { GameResult, FilesDetails } from "./types/hacking";
 import { ipcRenderer } from "electron";
 
 const App: React.FC = () => {
 	const navigate = useNavigate();
-	const [gameResult, setGameResult] = useState<GameResult>(GameResult.Unresolved);
-	const [files, setFiles] = useState<File[]>([]);
+	// TODO: Don't forget to switch it back to Unresolved
+	const [gameResult, setGameResult] = useState<GameResult>(GameResult.Win);
+	const [files, setFiles] = useState<FilesDetails[]>([]);
 
 	// A game's result is managed at this level to redirect if necessary
 	useEffect(() => {
 		if (gameResult !== GameResult.Unresolved) {
-			navigate("/files");
+			navigate("/content");
 		}
 	}, [gameResult]);
 
+	// Asynchronously get file explorer data
+	const getFiles = useCallback(() => {
+		ipcRenderer.invoke("get-file-tree").then((result: FilesDetails[]) => {
+			setFiles([...result]);
+		});
+	}, []);
+
 	useEffect(() => {
-		// Asynchronously get file explorer data
-		(async () => {
-			const response: File[] = await ipcRenderer.invoke("get-file-tree");
-			setFiles(response);
-			response.map((file) => console.log(file));
-		})();
+		getFiles();
 	}, []);
 
 	return (
@@ -34,7 +37,7 @@ const App: React.FC = () => {
 			<Route path="/*" element={<TerminalLayout />}>
 				<Route path="game" element={<HackingScreen onResult={setGameResult} />} />
 				<Route
-					path="files"
+					path="content"
 					element={gameResult === GameResult.Win ? <FileExplorer files={files} /> : <FailureScreen />}
 				/>
 				<Route path="" element={<IntroScreen />} />

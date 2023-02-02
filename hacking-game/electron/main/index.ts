@@ -162,7 +162,7 @@ ipcMain.handle("get-file-tree", async (event: IpcMainEvent) => {
 	};
 
 	scanDirectory(basePath, { name: "", path: basePath, isDirectory: true, children: tree });
-	event.reply("file-tree-response", tree);
+	return tree;
 });
 
 ipcMain.on("open-file", (event: IpcMainEvent, filePath: string) => {
