@@ -3,6 +3,7 @@ import path from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import electron from "vite-electron-plugin";
+import { copy } from "vite-electron-plugin/plugin";
 import { customStart, loadViteEnv } from "vite-electron-plugin/plugin";
 import renderer from "vite-plugin-electron-renderer";
 import pkg from "./package.json";
@@ -39,6 +40,7 @@ export default defineConfig(({ command }) => {
 						: []),
 					// Allow use `import.meta.env.VITE_SOME_KEY` in Electron-Main
 					loadViteEnv(),
+					copy([{ from: "./electron/**", to: "./dist-electron" }]),
 				],
 			}),
 			// Use Node.js API in the Renderer-process

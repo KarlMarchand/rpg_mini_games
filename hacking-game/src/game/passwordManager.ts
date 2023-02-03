@@ -9,8 +9,8 @@ export enum PasswordStyles {
 
 export enum Difficulty {
 	EASY = 3,
-	MEDIUM = 5,
-	HARD = 7,
+	MEDIUM = 4,
+	HARD = 5,
 }
 
 class PasswordManager {
@@ -31,7 +31,6 @@ class PasswordManager {
 				: PasswordManager.passwordContent[this.passwordStyle];
 		this.passwordLength = passwordDifficulty;
 		this.password = "";
-		this.generateNewPassword();
 	}
 
 	static lettersArray = Array.from("abcdefghijklmnopqrstuvwxyz".split(""));
@@ -44,10 +43,16 @@ class PasswordManager {
 		[PasswordStyles.CUSTOM]: [],
 	};
 
+	// Generate a password with a length of n where each character can only appears once
 	generateNewPassword = (): void => {
+		const valuesLeft = Array.from(this.passwordValues);
 		this.password = Array(this.passwordLength)
 			.fill("*")
-			.map(() => this.passwordValues[Math.floor(Math.random() * this.passwordValues.length)])
+			.map(() => {
+				const index: number = Math.floor(Math.random() * valuesLeft.length);
+				const chosenValue: string = valuesLeft.splice(index, 1)[0];
+				return chosenValue;
+			})
 			.join("");
 	};
 

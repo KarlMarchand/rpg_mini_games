@@ -11,3 +11,10 @@ export enum GameResult {
 	Win = 1,
 	Lose = 2,
 }
+
+export type FilesDetails = {
+	isDirectory: boolean;
+	name: string;
+	path: string;
+	children?: FilesDetails[];
+};

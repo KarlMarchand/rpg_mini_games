@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 type Props = {
 	label: string;
@@ -9,8 +9,7 @@ type Props = {
 
 const TerminalInput: React.FC<Props> = ({ label, numbersOnly, maxLength, onSubmit }) => {
 	const [inputValue, setInputValue] = useState<string>("");
-
-	const numbers: string[] = [...Array(10).keys()].map((n) => n.toString());
+	const numbers = useRef<string[]>([...Array(10).keys()].map((n) => n.toString()));
 
 	const handleKeyDown = useCallback(
 		(event: KeyboardEvent) => {
@@ -25,7 +24,7 @@ const TerminalInput: React.FC<Props> = ({ label, numbersOnly, maxLength, onSubmi
 				setInputValue((value: string) => value.slice(0, -1));
 			} else if (event.key.length === 1 || event.key === "Space") {
 				if (maxLength && inputValue.length < maxLength) {
-					if (numbersOnly && !numbers.includes(event.key)) {
+					if (numbersOnly && !numbers.current.includes(event.key)) {
 						return;
 					}
 					setInputValue((value: string) => value + event.key);

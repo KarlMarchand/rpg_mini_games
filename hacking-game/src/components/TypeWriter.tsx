@@ -3,9 +3,9 @@ import { useState, useEffect, useRef } from "react";
 type Props = {
 	text: string;
 	speed: number;
-	customKey: string;
-	onFinish: () => void;
-	scroll: () => void;
+	customKey?: string;
+	onFinish?: () => void;
+	scroll?: () => void;
 };
 
 const TypeWriter: React.FC<Props> = ({ text, speed, customKey, onFinish, scroll }) => {
@@ -14,7 +14,7 @@ const TypeWriter: React.FC<Props> = ({ text, speed, customKey, onFinish, scroll 
 
 	useEffect(() => {
 		index.current = 0;
-		setCurrentText("> ");
+		setCurrentText("");
 	}, [text]);
 
 	useEffect(() => {
@@ -22,16 +22,20 @@ const TypeWriter: React.FC<Props> = ({ text, speed, customKey, onFinish, scroll 
 			setCurrentText((value: string) => value + text.charAt(index.current));
 			index.current += 1;
 			if (index.current === text.length - 1) {
-				onFinish();
+				if (onFinish) {
+					onFinish();
+				}
 			}
-			scroll();
+			if (scroll) {
+				scroll();
+			}
 		}, speed);
 		return () => {
 			clearTimeout(timeoutId);
 		};
 	}, [currentText, text]);
 
-	return <p key={customKey}>{currentText}</p>;
+	return <p>{currentText}</p>;
 };
 
 export default TypeWriter;
