@@ -3,6 +3,7 @@ import { release } from "node:os";
 import { join } from "node:path";
 import fs from "fs";
 import path from "path";
+import os from "os";
 
 // The built directory structure
 //
@@ -165,12 +166,19 @@ ipcMain.handle("get-file-tree", async (event: IpcMainEvent) => {
 	return tree;
 });
 
-ipcMain.on("open-file", (event: IpcMainEvent, filePath: string) => {
-	fs.readFile(filePath, "utf-8", (err, data) => {
+ipcMain.handle("open-file", async (event: IpcMainEvent, filePath: string) => {
+	fs.readFile(filePath, (err, data) => {
 		if (err) {
 			console.error(err);
 			return;
 		}
-		event.sender.send("file-content", data);
+		const tempFile = path.join(os.tmpdir(), path.basename(filePath));
+		fs.writeFile(tempFile, data, (writeErr) => {
+			if (writeErr) {
+				console.error(writeErr);
+				return;
+			}
+			shell.openExternal(`file://${tempFile}`);
+		});
 	});
 });

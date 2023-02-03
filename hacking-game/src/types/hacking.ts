@@ -16,4 +16,5 @@ export type FilesDetails = {
 	isDirectory: boolean;
 	name: string;
 	path: string;
+	children?: FilesDetails[];
 };
