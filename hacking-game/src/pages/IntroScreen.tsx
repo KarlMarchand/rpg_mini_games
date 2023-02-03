@@ -1,4 +1,4 @@
-import TypeWriter from "@/components/TypeWriter";
+import TypeWriter from "../components/TypeWriter";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 

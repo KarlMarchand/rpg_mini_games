@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { GameResult } from "../types/hacking";
-import Instructions from "@/components/Instructions";
-import PromptSkillBonus from "@/components/PromptSkillBonus";
-import PasswordManager from "@/game/passwordManager";
-import HackingGame from "@/components/HackingGame";
+import Instructions from "../components/Instructions";
+import PromptSkillBonus from "../components/PromptSkillBonus";
+import PasswordManager from "../game/passwordManager";
+import HackingGame from "../components/HackingGame";
 
 const HackingScreen: React.FC<{ onResult: (result: GameResult) => void }> = ({ onResult }) => {
 	const [skillBonus, setSkillBonus] = useState<number | null>(null);

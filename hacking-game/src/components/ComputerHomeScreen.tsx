@@ -25,7 +25,7 @@ const ComputerHomeScreen: React.FC<{ onFinish: () => void }> = ({ onFinish }) =>
 			}}
 		>
 			<img src={EmpireLogo} className="empire-logo" />
-			<h1>Welcome Back Agent!</h1>
+			<h1 className="aurebesh">Welcome Back Agent!</h1>
 			<div
 				style={{
 					display: "flex",

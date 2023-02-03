@@ -1,18 +1,15 @@
-import { useEffect, useState, useCallback } from "react";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import TerminalLayout from "./components/TerminalLayout";
 import IntroScreen from "./pages/IntroScreen";
 import HackingScreen from "./pages/HackingScreen";
-import FileExplorer from "./pages/FileExplorer";
+import ComputerScreen from "./pages/ComputerScreen";
 import FailureScreen from "./pages/FailureScreen";
-import { GameResult, FilesDetails } from "./types/hacking";
-import { ipcRenderer } from "electron";
+import { GameResult } from "./types/hacking";
 
 const App: React.FC = () => {
 	const navigate = useNavigate();
-	// TODO: Don't forget to switch it back to Unresolved
-	const [gameResult, setGameResult] = useState<GameResult>(GameResult.Win);
-	const [files, setFiles] = useState<FilesDetails[]>([]);
+	const [gameResult, setGameResult] = useState<GameResult>(GameResult.Unresolved);
 
 	// A game's result is managed at this level to redirect if necessary
 	useEffect(() => {
@@ -21,24 +18,13 @@ const App: React.FC = () => {
 		}
 	}, [gameResult]);
 
-	// Asynchronously get file explorer data
-	const getFiles = useCallback(() => {
-		ipcRenderer.invoke("get-file-tree").then((result: FilesDetails[]) => {
-			setFiles([...result]);
-		});
-	}, []);
-
-	useEffect(() => {
-		getFiles();
-	}, []);
-
 	return (
 		<Routes>
 			<Route path="/*" element={<TerminalLayout />}>
 				<Route path="game" element={<HackingScreen onResult={setGameResult} />} />
 				<Route
 					path="content"
-					element={gameResult === GameResult.Win ? <FileExplorer files={files} /> : <FailureScreen />}
+					element={gameResult === GameResult.Win ? <ComputerScreen /> : <FailureScreen />}
 				/>
 				<Route path="" element={<IntroScreen />} />
 			</Route>

@@ -6,7 +6,7 @@ const FailureScreen = () => {
 	return (
 		<>
 			<h1>
-				<span className="errorcode">ERROR CODE: 0x80070057</span>
+				<span className="aurebesh">ERROR CODE: 0x80070057</span>
 			</h1>
 			<p>Password decryption failed. System lock-out initiated.</p>
 			<button onClick={handleCloseApp}>Exit Program</button>

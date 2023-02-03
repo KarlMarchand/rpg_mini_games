@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { GameResult } from "../types/hacking";
-import PasswordManager, { PasswordStyles } from "@/game/passwordManager";
+import PasswordManager, { PasswordStyles } from "../game/passwordManager";
 import { Result } from "../types/hacking";
 import TerminalInput from "./TerminalInput";
 
@@ -26,8 +26,7 @@ const HackingGame: React.FC<Props> = ({ tries, passwordManager, symbol, onResolv
 	// Generate a new password when the component is mounted
 	useEffect(() => {
 		passwordManager.generateNewPassword();
-		console.log(passwordManager.password);
-	}, []);
+	}, [passwordManager]);
 
 	const makeGuess = (answer: string) => {
 		// Check against the password and get feedback.
@@ -52,7 +51,7 @@ const HackingGame: React.FC<Props> = ({ tries, passwordManager, symbol, onResolv
 
 	return (
 		<div className="scrollDown" ref={containerRef}>
-			<h1>Sarlacc Hacking</h1>
+			<h1 className="aurebesh">Sarlacc Hacking</h1>
 			<p>Attempts Remaining: {attempts}</p>
 			<div className="guess-history">
 				{guessHistory.map((guess, index) => {
