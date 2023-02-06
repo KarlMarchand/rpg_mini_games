@@ -1,76 +1,21 @@
-# electron-vite-react
+# Hacking Mini-Game
+The goal is to provide the players a more immersive experience when they have to hack into a computer. The mini-game offers the player to enter their skill bonus which will give them a difficulty level in accordance to their skill level. The more the player is an expert and the easier it will be. If the player doesn't have a good bonus, it will make it more difficult to hack. Basically the game's mechanics are based on the mastermind boardgame. The player have to enter a combination which can be easy, medium or hard (change the length of the combination) and contains letters, numbers or both (depending on the GM's settings). They will have multiple guess but each time, the game will tell them if they have a correct character, an almost character (right char but wrong position) or a simply wrong character. With the feedback and a bit of thinking, the player can eventually guess the combination and then they have access to the files inside the computer. Otherwise, they get kicked out of the application.
 
-[![awesome-vite](https://awesome.re/mentioned-badge.svg)](https://github.com/vitejs/awesome-vite)
-![GitHub stars](https://img.shields.io/github/stars/caoxiemeihao/vite-react-electron?color=fa6470)
-![GitHub issues](https://img.shields.io/github/issues/caoxiemeihao/vite-react-electron?color=d8b22d)
-![GitHub license](https://img.shields.io/github/license/caoxiemeihao/vite-react-electron)
-[![Required Node.JS >= 14.18.0 || >=16.0.0](https://img.shields.io/static/v1?label=node&message=14.18.0%20||%20%3E=16.0.0&logo=node.js&color=3f893e)](https://nodejs.org/about/releases)
+### Install and run the project
+At the moment the project can be run by cloning, downloading or forking the repo and opening the hacking subfolder. The settings must be changed in the code directly and you can change the content of computer by changing the content of the "computerContent" subfolder in the electron folder before building.
 
-English
+- If you want to work on it, you can use the command: 
+`npm run dev`.
 
-## 👀 Overview
+- If you want to build it you can use the command:
+`npm run build`
 
-📦 Ready out of the box  
-🎯 Based on the official [template-react-ts](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts), project structure will be familiar to you  
-🌱 Easily extendable and customizable  
-💪 Supports Node.js API in the renderer process  
-🔩 Supports C/C++ native addons  
-🐞 Debugger configuration included  
-🖥 Easy to implement multiple windows
+- Once it's built, you can run by going in the newly created "release" folder and using the executable.
 
-## 🛫 Quick start
-
-```sh
-npm create electron-vite
-```
-
-![electron-vite-react.gif](/public/electron-vite-react.gif)
-
-## 🐞 Debug
-
-![electron-vite-react-debug.gif](/public/electron-vite-react-debug.gif)
-
-## 📂 Directory structure
-
-Familiar React application structure, just with `electron` folder on the top :wink:  
-_Files in this folder will be separated from your React application and built into `dist-electron`_
-
-```tree
-├── electron                                 Electron-related code
-│   ├── main                                 Main-process source code
-│   └── preload                              Preload-scripts source code
-│
-├── release                                  Generated after production build, contains executables
-│   └── {version}
-│       ├── {os}-{os_arch}                   Contains unpacked application executable
-│       └── {app_name}_{version}.{ext}       Installer for the application
-│
-├── public                                   Static assets
-└── src                                      Renderer source code, your React application
-```
-
-## 🚨 Be aware
-
-This template integrates Node.js API to the renderer process by default. If you want to follow **Electron Security Concerns** you might want to disable this feature. You will have to expose needed API by yourself.
-
-To get started, remove the option as shown below. This will [modify the Vite configuration and disable this feature](https://github.com/electron-vite/vite-plugin-electron-renderer#config-presets-opinionated).
-
-```diff
-# vite.config.ts
-
-export default {
-  plugins: [
-    ...
--   // Use Node.js API in the Renderer-process
--   renderer({
--     nodeIntegration: true,
--   }),
-    ...
-  ],
-}
-```
-
-## ❔ FAQ
-
--   [dependencies vs devDependencies](https://github.com/electron-vite/vite-plugin-electron-renderer#dependencies-vs-devdependencies)
--   [C/C++ addons, Node.js modules - Pre-Bundling](https://github.com/electron-vite/vite-plugin-electron-renderer#dependency-pre-bundling)
+<div>
+  <img title="JavaScript" alt="JavaScript" width="40" height="40" src="https://github.com/devicons/devicon/blob/master/icons/javascript/javascript-original.svg"/>&nbsp;
+  <img title="Typescript" alt="Typescript" with="40" height="40" src="https://github.com/devicons/devicon/blob/master/icons/typescript/typescript-original.svg"/>&nbsp;
+  <img title="NodeJS" alt="NodeJS" width="40" height="40" src="https://github.com/devicons/devicon/blob/master/icons/nodejs/nodejs-original-wordmark.svg"/>&nbsp;
+  <img title="React" alt="React" width="40" height="40" src="https://github.com/devicons/devicon/blob/master/icons/react/react-original-wordmark.svg"/>&nbsp;
+  <img title="Electron" alt="Electron" width="40" height="40" src="https://github.com/devicons/devicon/blob/master/icons/electron/electron-original.svg"/>&nbsp;
+</div>
