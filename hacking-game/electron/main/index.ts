@@ -182,3 +182,8 @@ ipcMain.handle("open-file", async (event: IpcMainEvent, filePath: string) => {
 		});
 	});
 });
+
+// Return if in dev mode or not
+ipcMain.handle("get-dev-env", async (event: IpcMainEvent) => {
+	return process.env.VITE_DEV_SERVER_URL;
+});

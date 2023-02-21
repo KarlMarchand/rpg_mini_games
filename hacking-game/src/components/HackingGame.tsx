@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import { GameResult } from "../types/hacking";
 import PasswordManager, { PasswordStyles } from "../game/passwordManager";
 import { Result } from "../types/hacking";
 import TerminalInput from "./TerminalInput";
+import { ipcRenderer } from "electron";
 
 type Props = {
 	tries: number;
@@ -26,6 +27,11 @@ const HackingGame: React.FC<Props> = ({ tries, passwordManager, symbol, onResolv
 	// Generate a new password when the component is mounted
 	useEffect(() => {
 		passwordManager.generateNewPassword();
+		ipcRenderer.invoke("get-dev-env").then((result: boolean) => {
+			if (result) {
+				console.log(passwordManager.password);
+			}
+		});
 	}, [passwordManager]);
 
 	const makeGuess = (answer: string) => {
